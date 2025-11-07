@@ -1,0 +1,34 @@
+# Large video files
+*.mp4
+*.MP4
+*.avi
+*.mov
+
+# Large data files
+*.npy
+*.npz
+
+# EPIC-Kitchens data directory
+epic_prototype/data/videos/
+epic_prototype/data/test_clip*
+epic_prototype/outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
