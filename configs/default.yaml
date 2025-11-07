@@ -1,8 +1,0 @@
-seed: 42
-batch_size: 64
-num_epochs: 3
-learning_rate: 0.001
-num_workers: 2
-log_every: 100
-hidden_dim: 256
-device: "cuda"
