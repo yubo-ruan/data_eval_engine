@@ -1,0 +1,21 @@
+clip_id,filename,type,narration,verb,noun,start_frame,stop_frame,duration,num_frames,timestamp
+annotated_000,annotated_000_put_lid_onto_container.mp4,annotated,put lid onto container,put-onto,lid,13157,13307,3.3333333333333335,50,
+annotated_001,annotated_001_turn_off_tap.mp4,annotated,turn off tap,turn-off,tap,10007,10157,3.3333333333333335,50,
+annotated_002,annotated_002_wash_wok.mp4,annotated,wash wok,wash,wok,7246,7396,3.3333333333333335,50,
+annotated_003,annotated_003_take_fork.mp4,annotated,take fork,take,fork,4240,4390,3.3333333333333335,50,
+annotated_004,annotated_004_put_down_plate.mp4,annotated,put down plate,put-down,plate,2743,2893,3.3333333333333335,50,
+annotated_005,annotated_005_take_cloth.mp4,annotated,take cloth,take,cloth,9095,9245,3.3333333333333335,50,
+annotated_006,annotated_006_wash_wok.mp4,annotated,wash wok,wash,wok,6684,6834,3.3333333333333335,50,
+annotated_007,annotated_007_put_down_container.mp4,annotated,put down container,put-down,container,11081,11231,3.3333333333333335,50,
+annotated_008,annotated_008_put_down_food.mp4,annotated,put down food,put-down,food,10292,10442,3.3333333333333335,50,
+annotated_009,annotated_009_take_colander.mp4,annotated,take colander,take,colander,4708,4858,3.3333333333333335,50,
+random_000,random_000.mp4,random,,,,10476,10626,3.3333333333333335,50,03:29
+random_001,random_001.mp4,random,,,,1824,1974,3.3333333333333335,50,00:36
+random_002,random_002.mp4,random,,,,409,559,3.3333333333333335,50,00:08
+random_003,random_003.mp4,random,,,,12149,12299,3.3333333333333335,50,04:02
+random_004,random_004.mp4,random,,,,4506,4656,3.3333333333333335,50,01:30
+random_005,random_005.mp4,random,,,,4012,4162,3.3333333333333335,50,01:20
+random_006,random_006.mp4,random,,,,3657,3807,3.3333333333333335,50,01:13
+random_007,random_007.mp4,random,,,,2286,2436,3.3333333333333335,50,00:45
+random_008,random_008.mp4,random,,,,12066,12216,3.3333333333333335,50,04:01
+random_009,random_009.mp4,random,,,,1679,1829,3.3333333333333335,50,00:33
