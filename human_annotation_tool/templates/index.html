@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Clip Annotation</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Robot Training Clip Comparison</h1>
+            <p class="instructions">
+                Which clip would be <strong>more useful</strong> for training a robot to perform kitchen manipulation tasks?
+                <br>Consider: hand visibility, action clarity, and task relevance.
+            </p>
+            <div class="progress">
+                <span id="annotation-count">Annotations completed: 0</span>
+            </div>
+        </header>
+
+        <div class="comparison-container">
+            <div class="clip-panel">
+                <h2>Clip A</h2>
+                <div class="video-container">
+                    <video id="video-a" controls loop>
+                        <source id="source-a" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <p class="clip-label" id="label-a">Loading...</p>
+                <button class="choice-btn" id="btn-a" onclick="submitChoice('A')">
+                    Choose Clip A
+                </button>
+            </div>
+
+            <div class="clip-panel">
+                <h2>Clip B</h2>
+                <div class="video-container">
+                    <video id="video-b" controls loop>
+                        <source id="source-b" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <p class="clip-label" id="label-b">Loading...</p>
+                <button class="choice-btn" id="btn-b" onclick="submitChoice('B')">
+                    Choose Clip B
+                </button>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="secondary-btn" onclick="submitChoice('tie')">
+                Both Equal / Tie
+            </button>
+            <button class="secondary-btn" onclick="loadNewPair()">
+                Skip This Pair
+            </button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        let currentPair = null;
+
+        async function loadNewPair() {
+            try {
+                const response = await fetch('/api/get_pair');
+                const data = await response.json();
+
+                currentPair = data;
+
+                // Update videos
+                document.getElementById('source-a').src = `/videos/${data.clip_a.path}`;
+                document.getElementById('source-b').src = `/videos/${data.clip_b.path}`;
+
+                // Reload videos
+                document.getElementById('video-a').load();
+                document.getElementById('video-b').load();
+
+                // Update labels
+                document.getElementById('label-a').textContent = `${data.clip_a.label} (${data.clip_a.type})`;
+                document.getElementById('label-b').textContent = `${data.clip_b.label} (${data.clip_b.type})`;
+
+                // Update count
+                document.getElementById('annotation-count').textContent =
+                    `Annotations completed: ${data.total_annotations}`;
+
+                // Clear feedback
+                document.getElementById('feedback').textContent = '';
+
+                // Enable buttons
+                document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+
+            } catch (error) {
+                console.error('Error loading pair:', error);
+                showFeedback('Error loading clips. Please refresh the page.', 'error');
+            }
+        }
+
+        async function submitChoice(preference) {
+            if (!currentPair) {
+                showFeedback('No pair loaded. Please wait...', 'error');
+                return;
+            }
+
+            // Disable buttons during submission
+            document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+            try {
+                const response = await fetch('/api/submit_annotation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        pair_id: currentPair.pair_id,
+                        clip_a_id: currentPair.clip_a.id,
+                        clip_b_id: currentPair.clip_b.id,
+                        preference: preference,
+                        annotator_id: getAnnotatorId()
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showFeedback(`✓ Annotation saved! Total: ${data.total_annotations}`, 'success');
+
+                    // Load next pair after short delay
+                    setTimeout(loadNewPair, 500);
+                } else {
+                    showFeedback('Error saving annotation. Please try again.', 'error');
+                    document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+                }
+
+            } catch (error) {
+                console.error('Error submitting annotation:', error);
+                showFeedback('Error saving annotation. Please try again.', 'error');
+                document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+            }
+        }
+
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function getAnnotatorId() {
+            // Get or create a simple session ID
+            let id = localStorage.getItem('annotator_id');
+            if (!id) {
+                id = 'annotator_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('annotator_id', id);
+            }
+            return id;
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'a' || event.key === 'A') {
+                submitChoice('A');
+            } else if (event.key === 'b' || event.key === 'B') {
+                submitChoice('B');
+            } else if (event.key === 't' || event.key === 'T') {
+                submitChoice('tie');
+            } else if (event.key === 's' || event.key === 'S') {
+                loadNewPair();
+            }
+        });
+
+        // Load first pair on page load
+        window.addEventListener('load', loadNewPair);
+    </script>
+</body>
+</html>
