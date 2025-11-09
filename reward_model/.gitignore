@@ -1,0 +1,54 @@
+# Data files (too large for git)
+data/raw_videos/
+data/extracted_clips/
+features/outputs/
+
+# Model checkpoints
+models/checkpoints/
+models/logs/
+
+# Validation results
+validation/results/
+validation/toy_bc/checkpoints/
+
+# Cache
+features/outputs/cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Keep directory structure
+!data/raw_videos/.gitkeep
+!data/extracted_clips/.gitkeep
+!features/outputs/.gitkeep
+!models/checkpoints/.gitkeep
+!models/logs/.gitkeep
+!validation/results/.gitkeep

@@ -1,0 +1,38 @@
+# Core ML/DL
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+scikit-learn>=1.2.0
+
+# Video Processing
+opencv-python>=4.8.0
+mediapipe>=0.10.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# NLP/Vision Models
+transformers>=4.30.0
+pillow>=10.0.0
+clip-openai>=1.0  # or use transformers CLIP
+
+# Data Processing
+pandas>=2.0.0
+tqdm>=4.65.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tensorboard>=2.13.0
+
+# Configuration
+pyyaml>=6.0
+
+# AWS Integration
+boto3>=1.28.0
+
+# Web (for annotation tool integration)
+flask>=2.3.0
+
+# Utilities
+python-dateutil>=2.8.0
+```

@@ -1,0 +1,58 @@
+# Feature Extraction Configuration
+
+# Enabled features
+enabled_features:
+  - blur
+  - exposure
+  - motion
+  - hands
+  - clip_embedding
+
+# Blur (Laplacian Variance)
+blur:
+  method: "laplacian"
+  threshold: 100  # Below this is considered blurry
+
+# Exposure (Histogram Entropy)
+exposure:
+  method: "histogram_entropy"
+  bins: 256
+
+# Motion (Optical Flow)
+motion:
+  method: "farneback"  # Optical flow algorithm
+  compute_variance: true
+  compute_jerk: true
+  sample_frames: null  # null = all frames, or specify N frames to sample
+
+# Hand Detection (MediaPipe)
+hands:
+  method: "mediapipe"
+  min_detection_confidence: 0.5
+  min_tracking_confidence: 0.5
+  max_num_hands: 2
+
+# CLIP Embeddings
+clip_embedding:
+  model: "openai/clip-vit-base-patch32"  # or "openai/clip-vit-large-patch14"
+  aggregation: "mean"  # mean, max, last
+  device: "cuda"  # cuda, cpu
+  batch_size: 8  # Frames per batch
+
+# Composite Score
+composite_score:
+  enabled: true
+  normalization: "z-score"  # z-score, min-max, none
+  weights:
+    blur: 0.25
+    exposure: 0.25
+    motion: 0.25
+    hands: 0.25
+  # Note: CLIP embeddings not included in composite (too high-dim)
+
+# Processing
+processing:
+  num_workers: 4
+  batch_size: 16  # Clips per batch
+  cache_embeddings: true
+  cache_dir: "features/outputs/cache/"

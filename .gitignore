@@ -13,6 +13,9 @@ epic_prototype/data/videos/
 epic_prototype/data/test_clip*
 epic_prototype/outputs/
 
+# External dependencies (cloned repos)
+external/
+
 # Python
 __pycache__/
 *.py[cod]

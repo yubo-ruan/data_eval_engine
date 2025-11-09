@@ -1,0 +1,37 @@
+# Reward Model Architecture Configuration
+
+# Input features
+input_features:
+  auto_features: 5  # blur, exposure, motion_var, jerk, hand_vis
+  clip_embedding: 512  # CLIP ViT-B/32
+  total: 517
+
+# Shared Trunk
+trunk:
+  hidden_dims: [256, 128]
+  activation: "relu"  # relu, gelu, tanh
+  dropout: 0.1
+  layer_norm: true
+  batch_norm: false
+
+# Human Preference Head
+human_head:
+  hidden_dims: [64]
+  output_dim: 1
+  activation: "relu"
+  dropout: 0.0
+
+# Robot Performance Head (stub for future)
+robot_head:
+  enabled: false  # Not trained yet
+  hidden_dims: [64]
+  output_dim: 1
+  activation: "relu"
+  dropout: 0.0
+
+# Feature ablation (for experiments)
+feature_ablation:
+  enabled: false
+  remove_motion: false  # Remove motion_var, jerk
+  remove_hands: false   # Remove hand_visibility
+  remove_clip: false    # Remove CLIP embeddings

@@ -15,9 +15,18 @@ import pandas as pd
 app = Flask(__name__)
 
 # Configuration
-CLIPS_DIR = Path('../epic_prototype/data/mixed_clips')
-RESULTS_DIR = Path('results')
+# Get absolute path to handle running from different directories
+BASE_DIR = Path(__file__).parent
+CLIPS_DIR = BASE_DIR / '../epic_prototype/data/mixed_clips'
+CLIPS_DIR = CLIPS_DIR.resolve()  # Convert to absolute path
+RESULTS_DIR = BASE_DIR / 'results'
 RESULTS_DIR.mkdir(exist_ok=True)
+
+print(f"Looking for clips in: {CLIPS_DIR}")
+if not CLIPS_DIR.exists():
+    print(f"ERROR: Clips directory not found at {CLIPS_DIR}")
+    print("Make sure you've run the clip extraction scripts first!")
+    exit(1)
 
 # Load clip metadata
 metadata_df = pd.read_csv(CLIPS_DIR / 'clip_metadata.csv')
@@ -121,6 +130,14 @@ def submit_annotation():
 def serve_video(filename):
     """Serve video files"""
     # Serve from epic_prototype/data/mixed_clips
+    full_path = CLIPS_DIR / filename
+    print(f"Serving video: {filename}")
+    print(f"Full path: {full_path}")
+    print(f"File exists: {full_path.exists()}")
+
+    if not full_path.exists():
+        return f"Video file not found: {filename}", 404
+
     return send_from_directory(CLIPS_DIR, filename)
 
 @app.route('/stats')
@@ -144,6 +161,6 @@ def stats():
 if __name__ == '__main__':
     load_existing_annotations()
     print("\nStarting annotation server...")
-    print("Access the tool at: http://localhost:5000")
+    print("Access the tool at: http://localhost:5001")
     print("\nPress Ctrl+C to stop the server\n")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)
